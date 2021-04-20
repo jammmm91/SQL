@@ -38,7 +38,7 @@ SELECT
     
 -- RMSE_MAE_EXAMPLE2 테이블에서
 -- MAPE ABSOLUTE PERCENTAGE ERROR ACCURACY = 
--- 1 ? ABS(예측값-실제값) / 예측값 
+-- 1 - ABS(예측값-실제값) / 예측값 
 -- 공식을 활용하여 정확도를 산출하세요 (소수점 2째자리 반올림)
 SELECT  A.YEARWEEK,
         A.ACTUAL,
@@ -49,7 +49,8 @@ ORDER BY YEARWEEK ASC
 
 
 SELECT A.*,
-        NEXT_DAY(SYSDATE,5)
+        --1(일), 2(월), 3(화), 4(수), 5(목), 6(금), 7(토)
+        NEXT_DAY(SYSDATE,3)
 FROM KOPO_CHANNEL_RESULT A
     
 
@@ -70,3 +71,12 @@ WHERE 1=1
 AND B.QTY >=1000
 AND B.QTY < 10000
 AND B.QTY_NEW != 10000
+
+
+--다시보기
+SELECT 
+    YEARWEEK,
+       CASE WHEN QTY<1000 THEN 1000
+            WHEN QTY>1000 AND QTY <10000 THEN 10000
+            ELSE 30000 END AS QTY
+FROM KOPO_CHANNEL_SEASONALITY_NEW
